@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import Swal from 'sweetalert2';
 
 const AddUser = () => {
     const nameRef =useRef();
@@ -18,7 +19,13 @@ const AddUser = () => {
          .then(data=> {
              console.log(data)
              if(data.insertedId){
-            alert('Succesfully added user')
+                Swal.fire({
+                    position: 'middle',
+                    icon: 'success',
+                    title: 'You have added user Sucessfully',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
             e.target.reset();
              }
          })

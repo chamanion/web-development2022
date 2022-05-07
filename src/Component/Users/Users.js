@@ -12,35 +12,27 @@ const Users = () => {
 
 //   DELETE 
 const handleDelete = id =>{
-    const url=`http://localhost:5000/users/${id}`
-    fetch(url,{
-        method: 'DELETE'
-    })
-    .then(res=>res.json())
-    .then(data=>{
-    if(data.deletedCount > 0){
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-              )
-            }
-          })
-        const remainingUser=users.filter(user =>user._id !== id)
-        setUsers(remainingUser);
+  Swal.fire({
+    icon: "warning",
+    title: "Are you sure to delete this order?",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`//localhost:5000/users/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.deletedCount) {
+            const modifiedOrders = users.filter((order) => order._id !== id);
+            setUsers(modifiedOrders);
+            Swal.fire("Deleted!", "", "success");
+          }
+        });
     }
-    })
-
+  });
+  
 }
 
 
